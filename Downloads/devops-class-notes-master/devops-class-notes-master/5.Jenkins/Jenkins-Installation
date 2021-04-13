@@ -1,0 +1,64 @@
+Setting up Jenkins in Docker container as a separate server
+=============================================================
+1# Create an ubuntu container
+$ docker run -it --name jenkins-server-wk ubuntu /bin/bash
+
+2# Create an user
+$ useradd -m -d /home/gamut -s /bin/bash gamut
+
+3# Setup the password for gamut
+$ passwd gamut
+
+4#
+Install SSH so that other machines can connect to this jenkins server
+	$ apt-get update
+	$ apt-get install openssh-server
+	$ service ssh start (Start ssh server)
+
+Install vim utility also for editing files
+	$ apt-get install vim
+
+2#
+- Create a folder in container for storing JDK and Tomcat installations
+	$ mkdir Distros
+	$ chmod 777 -R Distros
+
+- Install JDK using below commands.
+$ apt-get update
+$ apt-get install openjdk-8-jdk
+
+
+- Install Tomcat
+Download tomcat from web using below command 
+$ wget https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.63/bin/apache-tomcat-8.5.63.tar.gz        
+      
+- Extract the package using below command
+	$ tar -zxvf apache-tomcat-8.5.63.tar.gz
+
+# download and deploy 'jenkins.war' into tomcat's webapps directory
+	$ cd $TOMCAT_HOME/webapps
+	$ wget https://get.jenkins.io/war-stable/2.263.4/jenkins.war
+
+# Start tomcat server. 
+	$ cd TOMCAT_HOME/bin
+	$ ./startup.sh
+
+#
+Launch jenkins using below URL
+http://172.17.0.2:8080/jenkins
+
+
+#
+- When jenkins prompts for password, provide it and click on 'continue'
+	ex: cat /root/.jenkins/secrets/initialAdminPassword
+
+- Select 'install all suggested plugin' in the 2nd screen
+
+- Create your won user and setup password
+	
+#
+Install Git and Maven after creating the project.
+
+
+
+
